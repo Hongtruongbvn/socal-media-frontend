@@ -1,4 +1,5 @@
-.register-page {
+// Dùng chung với LoginPage.scss, chỉ thêm nếu cần khác biệt
+.auth-page {
   min-height: 100vh;
   display: flex;
   align-items: center;
@@ -7,7 +8,7 @@
   padding: 20px;
 }
 
-.register-card {
+.auth-card {
   background: #334155;
   border-radius: 32px;
   padding: 48px 40px;
@@ -23,12 +24,12 @@
   }
 }
 
-.register-icon {
+.auth-icon {
   font-size: 56px;
   margin-bottom: 16px;
 }
 
-.register-title {
+.auth-title {
   font-size: 32px;
   font-weight: 700;
   background: linear-gradient(135deg, #ffb74d 0%, #48D1CC 100%);
@@ -38,13 +39,13 @@
   margin-bottom: 32px;
 }
 
-.register-form {
+.auth-form {
   display: flex;
   flex-direction: column;
   gap: 16px;
 }
 
-.register-input {
+.auth-input {
   width: 100%;
   padding: 14px 18px;
   border: 1px solid #475569;
@@ -53,6 +54,7 @@
   color: #e2e2e2;
   font-size: 16px;
   transition: all 0.2s;
+  box-sizing: border-box;
 
   &:focus {
     outline: none;
@@ -65,7 +67,7 @@
   }
 }
 
-.register-btn {
+.auth-btn {
   width: 100%;
   padding: 14px;
   background: linear-gradient(135deg, #ffb74d 0%, #48D1CC 100%);
@@ -77,22 +79,34 @@
   cursor: pointer;
   transition: all 0.2s;
   margin-top: 8px;
+  box-sizing: border-box;
 
-  &:hover {
+  &:hover:not(:disabled) {
     transform: translateY(-2px);
     color: white;
   }
+
+  &:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    transform: none;
+  }
 }
 
-.register-footer {
+.auth-links {
   margin-top: 28px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
   color: #cbd5e1;
   font-size: 14px;
 }
 
-.register-link {
+.auth-link {
   color: #48D1CC;
-  font-weight: 700;
+  font-weight: 600;
   text-decoration: none;
   transition: all 0.2s;
 

@@ -11,32 +11,36 @@ const RegisterPage: React.FC = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     try {
       await api.post('/auth/register', { username, email, password });
       toast.success('✅ Đăng ký thành công! Vui lòng kiểm tra email để xác thực.');
       navigate('/login');
     } catch (err: any) {
       toast.error(err.response?.data?.message || '❌ Đăng ký thất bại');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="register-page">
-      <div className="register-card">
-        <div className="register-icon">📝</div>
-        <h2 className="register-title">Tạo tài khoản</h2>
+    <div className="auth-page">
+      <div className="auth-card">
+        <div className="auth-icon">📝</div>
+        <h2 className="auth-title">Tạo tài khoản</h2>
         
-        <form onSubmit={handleSubmit} className="register-form">
+        <form onSubmit={handleSubmit} className="auth-form">
           <Input
             placeholder="👤 Tên người dùng"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
             required
-            className="register-input"
+            className="auth-input"
           />
           <Input
             type="email"
@@ -44,7 +48,7 @@ const RegisterPage: React.FC = () => {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
-            className="register-input"
+            className="auth-input"
           />
           <Input
             type="password"
@@ -52,17 +56,17 @@ const RegisterPage: React.FC = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
-            className="register-input"
+            className="auth-input"
           />
-          <Button type="submit" className="register-btn">
-            Đăng ký
+          <Button type="submit" className="auth-btn" disabled={isLoading}>
+            {isLoading ? '⏳ Đang xử lý...' : 'Đăng ký'}
           </Button>
         </form>
         
-        <div className="register-footer">
+        <div className="auth-links">
           <span>
             Đã có tài khoản?{' '}
-            <Link to="/login" className="register-link">
+            <Link to="/login" className="auth-link">
               Đăng nhập
             </Link>
           </span>

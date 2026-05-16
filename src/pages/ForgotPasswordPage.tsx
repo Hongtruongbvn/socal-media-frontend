@@ -8,27 +8,31 @@ import './ForgotPasswordPage.scss';
 const ForgotPasswordPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsLoading(true);
     setMessage('');
     try {
       const response = await api.post('/auth/forgot-password', { email });
       setMessage(response.data.message);
     } catch (err) {
       setMessage('Có lỗi xảy ra, vui lòng thử lại.');
+    } finally {
+      setIsLoading(false);
     }
   };
 
   return (
-    <div className="forgot-password-page">
-      <div className="forgot-password-card">
+    <div className="forgot-page">
+      <div className="forgot-card">
         <div className="forgot-icon">🔑</div>
         <h2 className="forgot-title">Quên mật khẩu</h2>
         
         {message ? (
-          <div>
-            <p className="forgot-message success">{message}</p>
+          <div className="forgot-success-box">
+            <p className="forgot-message">{message}</p>
             <Link to="/login">
               <button className="forgot-back-btn">🔐 Quay lại Đăng nhập</button>
             </Link>
@@ -46,8 +50,8 @@ const ForgotPasswordPage: React.FC = () => {
               required
               className="forgot-input"
             />
-            <Button type="submit" className="forgot-btn">
-              📧 Gửi yêu cầu
+            <Button type="submit" className="forgot-btn" disabled={isLoading}>
+              {isLoading ? '⏳ Đang gửi...' : '📧 Gửi yêu cầu'}
             </Button>
           </form>
         )}
