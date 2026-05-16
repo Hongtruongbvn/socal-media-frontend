@@ -1,43 +1,63 @@
-// @use 'src/styles/index' as *;
-
 .admin-layout {
   display: flex;
   height: 100vh;
-  background-color: $background-body;
+  background: #1e293b;
 }
 
 .admin-sidebar {
-  width: 250px;
-  background-color: $background-component;
-  padding: 20px;
+  width: 260px;
+  background: #334155;
+  padding: 24px 16px;
   display: flex;
   flex-direction: column;
-  border-right: 1px solid $surface-color;
+  border-right: 1px solid #475569;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.2);
 
   .logo h2 {
     font-size: 24px;
-    color: $primary-accent;
+    background: linear-gradient(135deg, #ffb74d 0%, #48D1CC 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 32px;
   }
 
   nav ul {
     list-style: none;
-    li a {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 12px;
-      border-radius: $border-radius-md;
-      color: $text-secondary;
-      font-weight: 500;
-      margin-bottom: 5px;
-      transition: all 0.2s;
+    padding: 0;
+    margin: 0;
 
-      &:hover, &.active {
-        background-color: $primary-main;
-        color: white;
+    li {
+      margin-bottom: 8px;
+
+      a {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px 16px;
+        border-radius: 12px;
+        color: #cbd5e1;
+        font-weight: 500;
+        text-decoration: none;
+        transition: all 0.2s;
+
+        &:hover, &.active {
+          background: linear-gradient(135deg, #ffb74d 0%, #48D1CC 100%);
+          color: #1a1a2e;
+          transform: translateX(4px);
+        }
+
+        &.active {
+          font-weight: 700;
+        }
       }
+    }
+
+    .home-link {
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #475569;
     }
   }
 }
@@ -46,4 +66,19 @@
   flex: 1;
   padding: 30px;
   overflow-y: auto;
+  background: #1e293b;
+
+  &::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: #334155;
+    border-radius: 10px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #48D1CC;
+    border-radius: 10px;
+  }
 }

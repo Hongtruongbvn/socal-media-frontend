@@ -31,7 +31,7 @@ interface FulfillPaymentResponse {
 }
 
 const stripePromise = loadStripe(import.meta.env.VITE_STRIPE_PUBLISHABLE_KEY);
-const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8888/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://socal-media-backend-qh5r.onrender.com/api';
 
 /* -------------------------------------------------------
    Form thanh toán

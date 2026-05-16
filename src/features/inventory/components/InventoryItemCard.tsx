@@ -12,7 +12,7 @@ interface InventoryItemCardProps {
 }
 
 const PLACEHOLDER = 'https://via.placeholder.com/250';
-const STATIC_ORIGIN = 'http://localhost:8888'; // <- ghép domain API (đảm bảo ảnh hiện)
+const STATIC_ORIGIN = 'https://socal-media-backend-qh5r.onrender.com'; // <- ghép domain API (đảm bảo ảnh hiện)
 
 const InventoryItemCard: React.FC<InventoryItemCardProps> = ({
   item,

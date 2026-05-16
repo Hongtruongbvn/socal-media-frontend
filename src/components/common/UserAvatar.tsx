@@ -1,4 +1,4 @@
-const STATIC = import.meta.env.VITE_API_STATIC_URL || "http://localhost:8888";
+const STATIC = import.meta.env.VITE_API_STATIC_URL || "https://socal-media-backend-qh5r.onrender.com";
 const toAssetUrl = (u?: string) => (!u ? "" : u.startsWith("http") ? u : `${STATIC}${u}`);
 
 export default function UserAvatar({ src, size = 36 }: { src?: string; size?: number }) {

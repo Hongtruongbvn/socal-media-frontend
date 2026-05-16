@@ -1,8 +1,6 @@
-// File: src/layouts/AdminLayout.tsx
-
 import React from 'react';
 import { NavLink, Outlet, Link } from 'react-router-dom';
-import { FaTachometerAlt, FaUsers, FaEdit, FaHome, FaCreditCard } from 'react-icons/fa'; // Import FaCreditCard
+import { FaTachometerAlt, FaUsers, FaEdit, FaHome, FaCreditCard } from 'react-icons/fa';
 import './AdminLayout.scss';
 
 const AdminLayout: React.FC = () => {
@@ -10,7 +8,7 @@ const AdminLayout: React.FC = () => {
     <div className="admin-layout">
       <aside className="admin-sidebar">
         <div className="logo">
-          <h2>Admin Panel</h2>
+          <h2>⚙️ Admin Panel</h2>
         </div>
         <nav>
           <ul>
@@ -36,7 +34,7 @@ const AdminLayout: React.FC = () => {
             </li>
             <li className="home-link">
               <Link to="/home">
-                <FaHome /> Trở về trang chủ
+                <FaHome /> 🏠 Trở về trang chủ
               </Link>
             </li>
           </ul>
@@ -48,4 +46,5 @@ const AdminLayout: React.FC = () => {
     </div>
   );
 };
+
 export default AdminLayout;

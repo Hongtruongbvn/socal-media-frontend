@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import './AdminTransactionsPage.scss';
 
-// Define the API base URL
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8888/api';
 
 const AdminTransactionsPage: React.FC = () => {
@@ -21,9 +20,7 @@ const AdminTransactionsPage: React.FC = () => {
         }
 
         const response = await axios.get(`${API_BASE_URL}/payments/transactions`, {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
+          headers: { Authorization: `Bearer ${token}` },
         });
         setTransactions(response.data);
       } catch (err: any) {
@@ -39,19 +36,13 @@ const AdminTransactionsPage: React.FC = () => {
   const handleDownloadReceipt = async (orderId: string) => {
     try {
       const token = localStorage.getItem('token');
-      if (!token) {
-        throw new Error('Không tìm thấy mã thông báo xác thực. Vui lòng đăng nhập lại.');
-      }
+      if (!token) throw new Error('Không tìm thấy mã thông báo xác thực.');
 
-      // ✅ Thêm header Authorization vào yêu cầu tải PDF
       const response = await axios.get(`${API_BASE_URL}/payments/receipt/${orderId}`, {
-        responseType: 'blob', // Quan trọng: Yêu cầu dữ liệu dưới dạng Blob
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
+        responseType: 'blob',
+        headers: { Authorization: `Bearer ${token}` },
       });
 
-      // Tạo một URL tạm thời cho Blob và kích hoạt tải xuống
       const blob = new Blob([response.data], { type: 'application/pdf' });
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
@@ -66,55 +57,27 @@ const AdminTransactionsPage: React.FC = () => {
     }
   };
 
-  if (loading) {
-    return <div className="loading">Đang tải giao dịch...</div>;
-  }
-
-  if (error) {
-    return <div className="error-message">Lỗi: {error}</div>;
-  }
-
-  if (transactions.length === 0) {
-    return <div className="no-data">Chưa có giao dịch nào được tạo.</div>;
-  }
+  if (loading) return <div className="admin-transactions-page"><div className="loading">⏳ Đang tải giao dịch...</div></div>;
+  if (error) return <div className="admin-transactions-page"><div className="error-message">❌ Lỗi: {error}</div></div>;
+  if (transactions.length === 0) return <div className="admin-transactions-page"><div className="no-data">📭 Chưa có giao dịch nào.</div></div>;
 
   return (
     <div className="admin-transactions-page">
-      <h2>Quản lý Giao dịch</h2>
+      <h2>💰 Quản lý Giao dịch</h2>
       <table>
         <thead>
-          <tr>
-            <th>ID Giao dịch</th>
-            <th>Người dùng</th>
-            <th>Gói Coin</th>
-            <th>Số tiền</th>
-            <th>Trạng thái</th>
-            <th>Ngày tạo</th>
-            <th>Hành động</th>
-          </tr>
+          <tr><th>ID</th><th>Người dùng</th><th>Gói Coin</th><th>Số tiền</th><th>Trạng thái</th><th>Ngày tạo</th><th>Hành động</th></tr>
         </thead>
         <tbody>
           {transactions.map((transaction: any) => (
             <tr key={transaction._id}>
               <td>{transaction._id.substring(0, 8)}...</td>
-              <td>{transaction.user.username}</td>
-              <td>{transaction.coinPackage.name}</td>
+              <td>{transaction.user?.username || 'N/A'}</td>
+              <td>{transaction.coinPackage?.name || 'N/A'}</td>
               <td>${transaction.amount}</td>
-              <td>
-                <span className={`status ${transaction.status.toLowerCase()}`}>
-                  {transaction.status}
-                </span>
-              </td>
+              <td><span className={`status ${transaction.status.toLowerCase()}`}>{transaction.status}</span></td>
               <td>{new Date(transaction.createdAt).toLocaleString()}</td>
-              <td>
-                {transaction.status === 'COMPLETED' ? (
-                  <button onClick={() => handleDownloadReceipt(transaction._id)}>
-                    Tải Hóa đơn
-                  </button>
-                ) : (
-                  'N/A'
-                )}
-              </td>
+              <td>{transaction.status === 'COMPLETED' ? <button onClick={() => handleDownloadReceipt(transaction._id)}>📄 Tải Hóa đơn</button> : 'N/A'}</td>
             </tr>
           ))}
         </tbody>

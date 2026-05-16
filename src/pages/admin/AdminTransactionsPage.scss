@@ -1,83 +1,72 @@
-/* File: src/pages/admin/AdminTransactionsPage.scss */
-
 .admin-transactions-page {
-  padding: 2rem;
-  max-width: 1200px;
+  padding: 24px;
+  max-width: 1400px;
   margin: 0 auto;
 
   h2 {
-    font-size: 1.75rem;
-    margin-bottom: 1.5rem;
-    color: #c1cd78;
-    border-bottom: 1px solid #083b38;
-    padding-bottom: 0.5rem;
+    font-size: 24px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #ffb74d 0%, #48D1CC 100%);
+    background-clip: text;
+    -webkit-background-clip: text;
+    color: transparent;
+    margin-bottom: 24px;
   }
 
   table {
     width: 100%;
     border-collapse: collapse;
-    background: #0e4420;
-    border-radius: 8px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background: #334155;
+    border-radius: 20px;
     overflow: hidden;
 
     thead {
-      background: #c1cd78;
+      background: #1e293b;
 
       th {
-        padding: 1rem;
+        padding: 16px;
         text-align: left;
-        font-weight: 600;
-        color: #0e4420;
-        text-transform: uppercase;
-        font-size: 0.9rem;
+        font-weight: 700;
+        color: #e2e2e2;
+        font-size: 14px;
       }
     }
 
     tbody {
       tr {
-        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-        transition: background 0.2s;
+        border-bottom: 1px solid #475569;
+        transition: all 0.2s;
 
         &:hover {
-          background: rgba(255, 255, 255, 0.05);
+          background: rgba(255, 255, 255, 0.03);
         }
 
         td {
-          padding: 1rem;
-          font-size: 0.95rem;
-          color: #d5e4c3;
-
-          a {
-            color: #0077cc;
-            text-decoration: none;
-
-            &:hover {
-              text-decoration: underline;
-            }
-          }
+          padding: 14px 16px;
+          font-size: 14px;
+          color: #cbd5e1;
 
           .status {
             display: inline-block;
-            padding: 0.25rem 0.5rem;
-            border-radius: 4px;
-            font-weight: bold;
-            font-size: 0.8rem;
-            text-transform: uppercase;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-weight: 600;
+            font-size: 12px;
 
             &.completed {
-              background: #28a745;
-              color: #e6f2b0;
+              background: rgba(34, 197, 94, 0.2);
+              color: #4ade80;
+              border: 1px solid #22c55e;
             }
-
             &.pending {
-              background: #ffc107;
-              color: #0e4420;
+              background: rgba(245, 158, 11, 0.2);
+              color: #fbbf24;
+              border: 1px solid #f59e0b;
             }
-
             &.failed {
-              background: #dc3545;
-              color: #e6f2b0;
+              background: rgba(220, 38, 38, 0.2);
+              color: #f87171;
+              border: 1px solid #dc2626;
             }
           }
         }
@@ -85,32 +74,32 @@
     }
   }
 
-  .loading,
-  .error-message {
-    text-align: center;
-    padding: 2rem;
-    font-size: 1rem;
-    color: #d5e4c3;
-  }
-
-  .error-message {
-    color: #dc3545;
-    font-weight: bold;
-  }
-
   button {
-    margin-top: 1rem;
-    background: #0077cc;
-    color: #e6f2b0;
+    background: linear-gradient(135deg, #ffb74d 0%, #48D1CC 100%);
+    color: #1a1a2e;
     border: none;
-    padding: 0.75rem 1.5rem;
-    border-radius: 4px;
+    padding: 8px 16px;
+    border-radius: 40px;
     cursor: pointer;
-    font-size: 1rem;
-    transition: background 0.2s;
+    font-size: 13px;
+    font-weight: 600;
+    transition: all 0.2s;
 
     &:hover {
-      background: #005fa3;
+      transform: translateY(-2px);
+      color: white;
     }
+  }
+
+  .loading, .error-message, .no-data {
+    text-align: center;
+    padding: 48px;
+    color: #94a3b8;
+    background: #334155;
+    border-radius: 20px;
+  }
+
+  .error-message {
+    color: #f87171;
   }
 }

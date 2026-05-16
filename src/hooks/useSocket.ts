@@ -3,7 +3,7 @@ import { io, Socket } from 'socket.io-client';
 import { useAuth } from '../features/auth/AuthContext';
 
 // Lấy URL BE từ .env, fallback localhost
-const RAW_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8888/api';
+const RAW_URL = import.meta.env.VITE_API_BASE_URL || 'https://socal-media-backend-qh5r.onrender.com/api';
 // Bỏ đuôi /api nếu có để dùng cho socket
 const SOCKET_URL = RAW_URL.replace(/\/api\/?$/, '');
 

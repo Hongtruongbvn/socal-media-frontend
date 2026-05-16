@@ -55,7 +55,7 @@ const EditProfileUser: React.FC = () => {
   };
 
   const publicUrl = (path: string) =>
-    path.startsWith('http') ? path : `http://localhost:8888${path}`;
+    path.startsWith('http') ? path : `https://socal-media-backend-qh5r.onrender.com${path}`;
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
