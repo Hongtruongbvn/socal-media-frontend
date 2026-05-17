@@ -1,65 +1,65 @@
 import React, { useEffect, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import api from '../services/api';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import './StatusPages.scss';
 
 const VerifyEmailPage: React.FC = () => {
   const [searchParams] = useSearchParams();
-
-  const [status, setStatus] = useState<
-    'verifying' | 'success' | 'error'
-  >('verifying');
-
-  const [message, setMessage] = useState(
-    'Đang xác thực email của bạn...',
-  );
+  const navigate = useNavigate();
+  const [status, setStatus] = useState<'verifying' | 'success' | 'error'>('verifying');
+  const [message, setMessage] = useState('Đang xác thực email của bạn...');
 
   useEffect(() => {
     const token = searchParams.get('token');
 
     if (!token) {
       setStatus('error');
-      setMessage('Không tìm thấy token xác thực.');
+      setMessage('Không tìm thấy token xác thực. Vui lòng kiểm tra lại email.');
       return;
     }
 
-    api
-      .get(`/auth/verify-email?token=${token}`)
-      .then(() => {
+    // Gọi API backend để xác thực
+    const verifyEmail = async () => {
+      try {
+        const response = await fetch(`${process.env.REACT_APP_API_URL || 'http://localhost:3000'}/auth/verify-email?token=${token}`);
+        
+        if (!response.ok) {
+          const errorData = await response.json();
+          throw new Error(errorData.message || 'Xác thực thất bại');
+        }
+
+        // Nếu backend trả về HTML, chúng ta cần xử lý
+        const contentType = response.headers.get('content-type');
+        if (contentType && contentType.includes('text/html')) {
+          // Nếu backend trả HTML, thay thế toàn bộ trang
+          const html = await response.text();
+          document.open();
+          document.write(html);
+          document.close();
+          return;
+        }
+
+        // Nếu backend trả JSON
+        const data = await response.json();
         setStatus('success');
-
-        setMessage(
-          'Xác thực thành công! Đang chuyển hướng tới đăng nhập...',
-        );
-
+        setMessage(data.message || 'Xác thực thành công!');
+        
         setTimeout(() => {
-          window.location.href = '/login';
+          navigate('/login');
         }, 3000);
-      })
-      .catch((err) => {
+      } catch (err: any) {
         setStatus('error');
+        setMessage(err.message || 'Token không hợp lệ hoặc đã hết hạn.');
+      }
+    };
 
-        setMessage(
-          err.response?.data?.message ||
-            'Token không hợp lệ hoặc đã hết hạn.',
-        );
-      });
-  }, [searchParams]);
+    verifyEmail();
+  }, [searchParams, navigate]);
 
   return (
     <div className="status-page">
       <div className={`status-card ${status}`}>
-        <div
-          style={{
-            fontSize: '64px',
-            marginBottom: '16px',
-          }}
-        >
-          {status === 'success'
-            ? '✅'
-            : status === 'error'
-            ? '❌'
-            : '⏳'}
+        <div className="status-icon">
+          {status === 'success' ? '✅' : status === 'error' ? '❌' : '⏳'}
         </div>
 
         <h2>
@@ -73,24 +73,28 @@ const VerifyEmailPage: React.FC = () => {
         <p>{message}</p>
 
         {status === 'error' && (
-          <button
-            onClick={() => {
-              window.location.href = '/login';
-            }}
-            style={{
-              marginTop: '20px',
-              background:
-                'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
-              border: 'none',
-              padding: '12px 32px',
-              borderRadius: '40px',
-              color: 'white',
-              fontWeight: '600',
-              cursor: 'pointer',
-            }}
-          >
-            🔐 Về trang Đăng nhập
-          </button>
+          <div className="action-buttons">
+            <button
+              onClick={() => navigate('/login')}
+              className="btn-primary"
+            >
+              🔐 Về trang Đăng nhập
+            </button>
+            <button
+              onClick={() => window.location.reload()}
+              className="btn-secondary"
+              style={{ marginLeft: '10px' }}
+            >
+              🔄 Thử lại
+            </button>
+          </div>
+        )}
+
+        {status === 'success' && (
+          <div className="loading-spinner">
+            <div className="spinner"></div>
+            <p style={{ marginTop: '10px', fontSize: '14px' }}>Đang chuyển hướng...</p>
+          </div>
         )}
       </div>
     </div>
