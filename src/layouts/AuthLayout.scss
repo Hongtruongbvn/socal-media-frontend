@@ -9,7 +9,7 @@
   padding: 20px;
 }
 
-.auth-card {
+.card {
   width: 100%;
   max-width: 1000px;
   min-height: 600px;
@@ -21,7 +21,7 @@
   animation: fadeInUp 0.5s ease-out forwards;
 }
 
-.auth-left {
+.left {
   flex: 1;
   background: linear-gradient(rgba(30, 41, 59, 0.85), rgba(15, 23, 42, 0.9)),
     url("https://images.pexels.com/photos/3228727/pexels-photo-3228727.jpeg?auto=compress&cs=tinysrgb&w=1600")
@@ -51,7 +51,8 @@
     margin: 0;
   }
 
-  .auth-left-btn {
+  button {
+    width: fit-content;
     padding: 12px 28px;
     border: 2px solid #ffb74d;
     background: transparent;
@@ -60,7 +61,6 @@
     border-radius: 40px;
     cursor: pointer;
     transition: all 0.2s;
-    width: fit-content;
     
     &:hover {
       background: linear-gradient(135deg, #ffb74d 0%, #48D1CC 100%);
@@ -71,7 +71,7 @@
   }
 }
 
-.auth-right {
+.right {
   flex: 1;
   padding: 48px 40px;
   display: flex;
@@ -88,7 +88,14 @@
     margin: 0;
   }
 
-  .auth-form { 
+  .auth-desc {
+    color: #94a3b8;
+    font-size: 14px;
+    text-align: center;
+    margin: -12px 0 0;
+  }
+
+  form { 
     display: flex; 
     flex-direction: column; 
     gap: 20px; 
@@ -116,11 +123,7 @@
     }
   }
 
-  /* QUAN TRỌNG: Vùng cố định cho thông báo - không nhảy UI */
-  .auth-message-area {
-    min-height: 52px;
-  }
-
+  .auth-message-area,
   .auth-error-area {
     min-height: 52px;
   }
@@ -156,7 +159,6 @@
     font-weight: 700;
     cursor: pointer;
     transition: all 0.2s;
-    box-sizing: border-box;
     margin-top: 8px;
 
     &:hover:not(:disabled) {
@@ -167,11 +169,10 @@
     &:disabled {
       opacity: 0.6;
       cursor: not-allowed;
-      transform: none;
     }
   }
 
-  .auth-footer {
+  .form-footer {
     margin-top: 20px;
     text-align: center;
     color: #94a3b8;
@@ -181,7 +182,7 @@
     align-items: center;
     gap: 12px;
 
-    .auth-link {
+    .link {
       color: #48D1CC;
       font-weight: 600;
       text-decoration: none;
@@ -192,26 +193,19 @@
       }
     }
   }
-
-  .auth-desc {
-    color: #94a3b8;
-    font-size: 14px;
-    text-align: center;
-    margin: 0;
-  }
 }
 
 @media (max-width: 768px) {
-  .auth-card { 
+  .card { 
     flex-direction: column; 
     min-height: auto; 
     width: 95%; 
     max-width: 480px; 
   }
-  .auth-left { 
+  .left { 
     display: none; 
   }
-  .auth-right { 
+  .right { 
     flex: 1; 
     padding: 40px 32px;
   }

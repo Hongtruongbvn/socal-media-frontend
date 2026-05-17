@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import api from '../services/api';
 import Input from '../components/common/Input';
 import Button from '../components/common/Button';
-import { Link } from 'react-router-dom';
-import './AuthPages.scss';
 
 const ForgotPasswordPage: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -28,55 +27,37 @@ const ForgotPasswordPage: React.FC = () => {
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-card">
-        <div className="auth-left">
-          <h1>Quên mật khẩu?</h1>
-          <p>Đừng lo lắng! Hãy nhập email của bạn, chúng tôi sẽ gửi link đặt lại mật khẩu.</p>
-          <button 
-            className="auth-left-btn"
-            onClick={() => window.location.href = '/login'}
-          >
-            Quay lại Đăng nhập
-          </button>
+    <>
+      <h2>Quên mật khẩu</h2>
+      <p className="auth-desc">Nhập email của bạn để nhận link đặt lại mật khẩu.</p>
+      <form onSubmit={handleSubmit}>
+        <Input
+          type="email"
+          placeholder="📧 Email của bạn"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          required
+          className="auth-input"
+        />
+        
+        <div className="auth-message-area">
+          {message && (
+            <p className={`auth-message ${isError ? 'error' : 'success'}`}>
+              {message}
+            </p>
+          )}
         </div>
         
-        <div className="auth-right">
-          <h2>Khôi phục mật khẩu</h2>
-          <p className="auth-desc">Nhập email của bạn để nhận link đặt lại mật khẩu.</p>
-          
-          <form onSubmit={handleSubmit} className="auth-form">
-            <Input
-              type="email"
-              placeholder="📧 Email của bạn"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="auth-input"
-            />
-            
-            {/* Vùng cố định cho thông báo */}
-            <div className="auth-message-area">
-              {message && (
-                <p className={`auth-message ${isError ? 'error' : 'success'}`}>
-                  {message}
-                </p>
-              )}
-            </div>
-            
-            <Button type="submit" className="auth-btn" disabled={isLoading}>
-              {isLoading ? '⏳ Đang gửi...' : '📧 Gửi yêu cầu'}
-            </Button>
-          </form>
-          
-          <div className="auth-footer">
-            <Link to="/login" className="auth-link">
-              ← Quay lại Đăng nhập
-            </Link>
-          </div>
-        </div>
+        <Button type="submit" className="auth-btn" disabled={isLoading}>
+          {isLoading ? '⏳ Đang gửi...' : '📧 Gửi yêu cầu'}
+        </Button>
+      </form>
+      <div className="form-footer">
+        <Link to="/login" className="link">
+          ← Quay lại Đăng nhập
+        </Link>
       </div>
-    </div>
+    </>
   );
 };
 

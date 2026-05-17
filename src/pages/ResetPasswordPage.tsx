@@ -3,7 +3,6 @@ import { useParams, useNavigate, Link } from 'react-router-dom';
 import api from '../services/api';
 import Input from '../components/common/Input';
 import Button from '../components/common/Button';
-import './AuthPages.scss';
 
 const ResetPasswordPage: React.FC = () => {
   const { token } = useParams<{ token: string }>();
@@ -31,54 +30,36 @@ const ResetPasswordPage: React.FC = () => {
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-card">
-        <div className="auth-left">
-          <h1>Đặt lại mật khẩu</h1>
-          <p>Nhập mật khẩu mới của bạn để tiếp tục sử dụng tài khoản.</p>
-          <button 
-            className="auth-left-btn"
-            onClick={() => navigate('/login')}
-          >
-            Quay lại Đăng nhập
-          </button>
+    <>
+      <h2>Đặt lại mật khẩu</h2>
+      <form onSubmit={handleSubmit}>
+        <Input
+          type="password"
+          placeholder="🔒 Mật khẩu mới"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          required
+          className="auth-input"
+        />
+        
+        <div className="auth-message-area">
+          {message && (
+            <p className={`auth-message ${isError ? 'error' : 'success'}`}>
+              {message}
+            </p>
+          )}
         </div>
         
-        <div className="auth-right">
-          <h2>Tạo mật khẩu mới</h2>
-          
-          <form onSubmit={handleSubmit} className="auth-form">
-            <Input
-              type="password"
-              placeholder="🔒 Mật khẩu mới"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="auth-input"
-            />
-            
-            {/* Vùng cố định cho thông báo */}
-            <div className="auth-message-area">
-              {message && (
-                <p className={`auth-message ${isError ? 'error' : 'success'}`}>
-                  {message}
-                </p>
-              )}
-            </div>
-            
-            <Button type="submit" className="auth-btn" disabled={isLoading}>
-              {isLoading ? '⏳ Đang xử lý...' : 'Xác nhận'}
-            </Button>
-          </form>
-          
-          <div className="auth-footer">
-            <Link to="/login" className="auth-link">
-              ← Quay lại Đăng nhập
-            </Link>
-          </div>
-        </div>
+        <Button type="submit" className="auth-btn" disabled={isLoading}>
+          {isLoading ? '⏳ Đang xử lý...' : 'Xác nhận'}
+        </Button>
+      </form>
+      <div className="form-footer">
+        <Link to="/login" className="link">
+          ← Quay lại Đăng nhập
+        </Link>
       </div>
-    </div>
+    </>
   );
 };
 
