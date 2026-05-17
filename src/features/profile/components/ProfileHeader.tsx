@@ -7,6 +7,7 @@ import "./ProfileHeader.scss";
 import { publicUrl } from "../../../untils/publicUrl";
 import api from "../../../services/api";
 import AvatarWithFrame from "../../../components/common/AvatarWithFrame";
+import { toast } from "react-toastify";
 
 const ReportModal: React.FC<{
   onClose: () => void;
@@ -183,11 +184,11 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     try {
       await api.post(`/friends/request/${userProfile._id}`);
       setFriendRequestStatus('PENDING');
-      alert('✅ Đã gửi lời mời kết bạn!');
+       toast.success('✅ Đã gửi lời mời kết bạn!');
     } catch (error: any) {
       console.error('Error sending friend request:', error);
       const message = error.response?.data?.message || 'Có lỗi xảy ra';
-      alert(`❌ ${message}`);
+       toast.error(`❌ ${message}`);
     } finally {
       setIsLoading(false);
     }
@@ -346,11 +347,11 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
                 targetId: userProfile._id,
                 reason,
               });
-              alert("✅ Cảm ơn bạn đã báo cáo người dùng này.");
+            toast.success("✅ Cảm ơn bạn đã báo cáo người dùng này.");
               setReportModalOpen(false);
             } catch (error) {
               console.error("Error submitting report:", error);
-              alert("❌ Có lỗi xảy ra khi gửi báo cáo. Vui lòng thử lại.");
+               toast.warn("❌ Có lỗi xảy ra khi gửi báo cáo. Vui lòng thử lại.");
             }
           }}
           userId={userProfile._id}

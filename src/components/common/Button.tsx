@@ -1,30 +1,42 @@
 import React from 'react';
 import './Button.scss';
 
-// ✅ BƯỚC 1: Mở rộng type để chấp nhận thêm các variant và size mới
 type ButtonVariant = 'primary' | 'secondary' | 'ghost' | 'danger';
 type ButtonSize = 'small' | 'medium' | 'large';
 
 interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElement> {
   children: React.ReactNode;
   variant?: ButtonVariant;
-  size?: ButtonSize; // Thêm prop 'size'
+  size?: ButtonSize;
+  isLoading?: boolean; // ✅ Thêm prop isLoading
 }
 
 const Button: React.FC<ButtonProps> = ({
   children,
   variant = 'primary',
-  size = 'medium', // Đặt size mặc định
+  size = 'medium',
+  isLoading = false, // ✅ Mặc định là false
   className,
+  disabled,
   ...props
 }) => {
-  // ✅ BƯỚC 2: Thêm class cho size vào chuỗi class CSS động
-  // Ví dụ kết quả: "btn btn-danger btn-small"
-  const buttonClass = `btn btn-${variant} btn-${size} ${className || ''}`.trim();
+  // ✅ Thêm class btn-loading khi đang loading
+  const buttonClass = `btn btn-${variant} btn-${size} ${isLoading ? 'btn-loading' : ''} ${className || ''}`.trim();
 
   return (
-    <button className={buttonClass} {...props}>
-      {children}
+    <button 
+      className={buttonClass} 
+      disabled={disabled || isLoading} // ✅ Disable khi đang loading
+      {...props}
+    >
+      {isLoading ? (
+        <>
+          <span className="btn-spinner"></span>
+          <span>{children}</span>
+        </>
+      ) : (
+        children
+      )}
     </button>
   );
 };
