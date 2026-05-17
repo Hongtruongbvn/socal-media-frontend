@@ -44,9 +44,9 @@ const VerifyEmailPage: React.FC = () => {
         setMessage(data.message || 'Xác thực thành công!');
         
         setTimeout(() => {
-          navigate('/login');
+          navigate('/');
         }, 3000);
-      } catch (err: any) {
+      } catch (err: any) {  
         setStatus('error');
         setMessage(err.message || 'Token không hợp lệ hoặc đã hết hạn.');
       }
