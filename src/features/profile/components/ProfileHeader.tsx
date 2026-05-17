@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import type { UserProfile } from "../types/UserProfile";
 import { useAuth } from "../../auth/AuthContext";
@@ -23,7 +23,6 @@ const ReportModal: React.FC<{
       >
         <h3>🚩 Gửi báo cáo</h3>
         
-        {/* Link to view the reported user's profile */}
         <p className="report-link">
           <a 
             href={`/profile/${username}`} 
@@ -142,6 +141,57 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
   const levelInfo = getUserLevelInfo(userProfile.xp, isAdmin);
 
   const [isReportModalOpen, setReportModalOpen] = useState(false);
+  const [friendRequestStatus, setFriendRequestStatus] = useState<'NONE' | 'PENDING' | 'FRIEND'>('NONE');
+  const [isLoading, setIsLoading] = useState(false);
+
+  // Kiểm tra trạng thái bạn bè khi component mount
+  useEffect(() => {
+    if (!isMyProfile && user) {
+      checkFriendStatus();
+    }
+  }, [userProfile._id, user]);
+
+  const checkFriendStatus = async () => {
+    try {
+      // Kiểm tra xem đã là bạn bè chưa
+      const friendsResponse = await api.get('/friends/me');
+      const isFriend = friendsResponse.data.some(
+        (friend: any) => friend._id === userProfile._id
+      );
+      
+      if (isFriend) {
+        setFriendRequestStatus('FRIEND');
+        return;
+      }
+
+      // Kiểm tra xem đã gửi lời mời chưa
+      const requestsResponse = await api.get('/friends/requests');
+      const hasPendingRequest = requestsResponse.data.some(
+        (request: any) => request.sender._id === userProfile._id
+      );
+      
+      if (hasPendingRequest) {
+        setFriendRequestStatus('PENDING');
+      }
+    } catch (error) {
+      console.error('Error checking friend status:', error);
+    }
+  };
+
+  const handleSendFriendRequest = async () => {
+    setIsLoading(true);
+    try {
+      await api.post(`/friends/request/${userProfile._id}`);
+      setFriendRequestStatus('PENDING');
+      alert('✅ Đã gửi lời mời kết bạn!');
+    } catch (error: any) {
+      console.error('Error sending friend request:', error);
+      const message = error.response?.data?.message || 'Có lỗi xảy ra';
+      alert(`❌ ${message}`);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleEditProfile = () => {
     navigate(`/profile/${userProfile.username}/edit`);
@@ -157,7 +207,7 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
     userProfile.accountStatus === 'BANNED';
 
   if (isAccountSuspendedOrBanned && !isMyProfile) {
-    return null; // Đã xử lý hiển thị thông báo ở ProfilePage
+    return null;
   }
 
   return (
@@ -242,6 +292,38 @@ const ProfileHeader: React.FC<ProfileHeaderProps> = ({
             >
               {isFollowing ? "Đang theo dõi" : "Theo dõi"}
             </Button>
+            
+            {/* Nút gửi lời mời kết bạn */}
+            {friendRequestStatus === 'FRIEND' ? (
+              <Button
+                variant="secondary"
+                size="small"
+                disabled
+                className="friend-btn friend-active"
+              >
+                ✓ Bạn bè
+              </Button>
+            ) : friendRequestStatus === 'PENDING' ? (
+              <Button
+                variant="secondary"
+                size="small"
+                disabled
+                className="friend-btn pending"
+              >
+                ⏳ Đã gửi lời mời
+              </Button>
+            ) : (
+              <Button
+                onClick={handleSendFriendRequest}
+                variant="secondary"
+                size="small"
+                isLoading={isLoading}
+                className="friend-btn"
+              >
+                + Kết bạn
+              </Button>
+            )}
+            
             <button
               className="report-btn"
               onClick={() => setReportModalOpen(true)}
