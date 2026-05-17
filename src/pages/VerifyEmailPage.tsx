@@ -75,7 +75,7 @@ const VerifyEmailPage: React.FC = () => {
         {status === 'error' && (
           <div className="action-buttons">
             <button
-              onClick={() => navigate('/login')}
+              onClick={() => navigate('/')}
               className="btn-primary"
             >
               🔐 Về trang Đăng nhập
