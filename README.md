@@ -10,7 +10,7 @@ It provides a modern and interactive user interface for users to connect, share 
 The frontend works together with the backend API service to deliver a complete social media experience.
 
 
-Backend API:https://socal-media-backend-qh5r.onrender.com/
+Backend API:https://project1-backend.truongbvn.online/
 Socal Media Backend API
 
 Important Notice
@@ -69,8 +69,8 @@ VITE_STRIPE_PUBLISHABLE_KEY=your_stripe_publishable_key
 
 Example:
 
-VITE_API_BASE_URL=https://socal-media-backend-qh5r.onrender.com/api
-VITE_API_STATIC_URL=https://socal-media-backend-qh5r.onrender.com
+VITE_API_BASE_URL=https://project1-backend.truongbvn.online/api
+VITE_API_STATIC_URL=https://project1-backend.truongbvn.online
 VITE_STRIPE_PUBLISHABLE_KEY=your_publishable_key
 Installation
 
@@ -103,5 +103,5 @@ Deployment
 https://socal-media-frontend.vercel.app/
 GitHub Repository
 
-Backend Deployment:https://socal-media-backend-qh5r.onrender.com/
+Backend Deployment:https://project1-backend.truongbvn.online/
 Backend API Deployment 

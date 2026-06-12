@@ -5,7 +5,7 @@ import { useAuth } from '../features/auth/AuthContext';
 import Button from '../components/common/Button';
 import './InventoryPage.scss';
 
-const STATIC_ORIGIN = import.meta.env.VITE_API_STATIC_URL || 'https://socal-media-backend-qh5r.onrender.com';
+const STATIC_ORIGIN = import.meta.env.VITE_API_STATIC_URL || 'https://project1-backend.truongbvn.online';
 const toAssetUrl = (u?: string) => (!u ? '' : u.startsWith('http') ? u : `${STATIC_ORIGIN}${u}`);
 const PLACEHOLDER = 'https://placehold.co/200x200/f0f0f0/667eea?text=Item';
 

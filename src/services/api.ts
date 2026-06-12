@@ -2,7 +2,7 @@ import axios from 'axios';
 
 // ⚠️ Không đặt Content-Type mặc định ở đây (để upload FormData không bị lỗi)
 const api = axios.create({
-  baseURL: import.meta.env?.VITE_API_URL || 'https://socal-media-backend-qh5r.onrender.com/api',
+  baseURL: import.meta.env?.VITE_API_URL || 'https://project1-backend.truongbvn.online/api',
 });
 
 // Gắn token + xử lý Content-Type động
